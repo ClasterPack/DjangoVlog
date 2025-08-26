@@ -136,6 +136,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'app.pagination.StandardResultsSetPagination',
     'PAGE_SIZE': config.page_size,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 # Celery
 CELERY_BROKER_URL = config.celery_broker
