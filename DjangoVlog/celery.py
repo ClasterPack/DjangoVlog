@@ -8,5 +8,4 @@ app = Celery('DjangoVlog')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
-# Поддержка eager-режима (для тестов)
 app.conf.task_always_eager = getattr(settings, 'CELERY_TASK_ALWAYS_EAGER', False)

@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -56,11 +57,24 @@ class PageContent(TimeStampedModel):
             models.UniqueConstraint(
                 fields=['page', 'content_type', 'object_id'],
                 name='uniq_page_content_object'
-            )
+            ),
+            models.UniqueConstraint(
+                fields=['page', 'position'],
+                name='uniq_page_position_per_page'
+            ),
         ]
+
         indexes = [
             models.Index(fields=['page', 'position']),
         ]
 
     def __str__(self):
         return f'{self.page} -> {self.content_type}#{self.object_id} (pos {self.position})'
+
+    def clean(self):
+        if PageContent.objects.filter(page=self.page, position=self.position).exclude(pk=self.pk).exists():
+            raise ValidationError(_("Position already bind."))
+
+        if PageContent.objects.filter(page=self.page, content_type=self.content_type, object_id=self.object_id).exclude(
+                pk=self.pk).exists():
+            raise ValidationError(_("Content already exists."))
