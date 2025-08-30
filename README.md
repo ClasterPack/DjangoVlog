@@ -148,5 +148,6 @@ python manage.py runserver`
 #### Запустить Celery worker:
 `celery -A DjangoVlog worker -l info`
 #### Собрать фронтенд (либо запустить dev-сервер Vite):
-cd vue-frontend && npm ci && npm run build
+`cd vue-frontend && npm ci && npm run build`
+
 В прод-режиме лучше обслуживать сборку через nginx (как в compose).
